@@ -13,27 +13,21 @@ const category = {
   }),
 };
 
-// Fonction pour transformer un nom de fichier en un titre lisible
 const formatFileName = (img) => {
-  if (!img || !img.src) return "Image inconnue"; // Vérification de sécurité
+  if (!img || !img.src) return "Unknown image";
 
-  // Extraire le chemin de l’image sans les paramètres d’URL
   let filePath = img.src.split("?")[0];
-
-  // Extraire uniquement le nom du fichier sans le chemin
   let fileName = filePath.split("/").pop();
 
-  // Supprimer l'extension du fichier (ex: .png, .jpg, .webp)
+  fileName = fileName.replace(/(\.[A-Za-z0-9]{8})(?=\.[^.]+$)/, "");
+
   fileName = fileName.replace(/\.[^/.]+$/, "");
 
-  // Remplacer "_" et "-" par des espaces
   fileName = fileName.replace(/[_-]/g, " ");
 
-  // Mettre la première lettre de chaque mot en majuscule
   return fileName.replace(/\b\w/g, (char) => char.toUpperCase());
 };
 
-// Fusionner toutes les images avec catégorie et date de modification (si dispo)
 const allImages: {
   src: any;
   alt: string;
@@ -48,15 +42,12 @@ Object.entries(category).forEach(([cat, images]) => {
       alt: `[${cat}] ${formatFileName(img.default)}`,
       title: formatFileName(img.default),
       category: cat,
-      lastModified: img.default.lastModified || img.default.src, // Trier par date ou fallback sur src
+      lastModified: img.default.lastModified || img.default.src,
     });
   });
 });
 
-// Trier les images par date (les plus anciennes en dernier)
 allImages.sort((a, b) => (a.lastModified > b.lastModified ? 1 : -1));
-
-// Mélanger les catégories pour éviter des blocs de même type
 const shuffledImages: unknown[] = [];
 const categoryGroups = Object.values(category).map((imgs) =>
   Object.values(imgs),
@@ -65,7 +56,7 @@ const categoryGroups = Object.values(category).map((imgs) =>
 while (categoryGroups.some((group) => group.length)) {
   categoryGroups.forEach((group) => {
     if (group.length) {
-      shuffledImages.push(group.shift()); // Prendre une image de chaque catégorie
+      shuffledImages.push(group.shift());
     }
   });
 }
