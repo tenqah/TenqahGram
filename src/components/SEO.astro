@@ -11,5 +11,14 @@ const { title, description } = Astro.props as Props;
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width" />
 <meta name="generator" content={Astro.generator} />
-<title>{title} - My Website</title>
+<title>{title} • Tenqah'gram</title>
+<meta name="title" content=`${title} • Tenqah'gram` />
 <meta name="description" content={description} />
+<meta property="og:type" content="website" />
+<meta property="og:url" content={Astro.url} />
+<meta property="og:title" content=`${title} • Tenqah'gram` />
+<meta property="og:description" content={description} />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={Astro.url} />
+<meta property="twitter:title" content=`${title} • Tenqah'gram` />
+<meta property="twitter:description" content={description} />
